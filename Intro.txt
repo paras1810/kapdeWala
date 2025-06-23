@@ -1,0 +1,10 @@
+/login user_name and password
+  return access token and refresh token
+  signed with secret key and return JSON response
+Client Store token
+  Store token in memory, local storage or secure cookies
+  protected request client include access token in authorization request.
+Header.Payload.Signature
+  Decodes header and Payload
+  Use secret key to recompute signature based on header 
+  JWT token architecture: Header+payload+Signature
