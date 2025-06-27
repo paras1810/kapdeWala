@@ -7,6 +7,9 @@ FORM_HTML = '''
 <title>Enter Values</title>
 <h1>Enter comma-separated values for each category</h1>
 <form method="post">
+  <label>Quantity (left):</label><br>
+  <input type="text" name="quantity" placeholder="e.g. 156030"><br><br>
+
   <label>Purchase (comma separated):</label><br>
   <input type="text" name="purchase" placeholder="e.g. 100,200,300"><br><br>
 
@@ -32,18 +35,23 @@ def calculate_totals():
                 # Split by comma, strip spaces, convert to float, ignore empty entries
                 return [float(x.strip()) for x in raw.split(',') if x.strip()]
 
+            quantity = sum(parse_values('quantity'))
             purchase_vals = parse_values('purchase')
             sale_vals = parse_values('sale')
             purchasereturn_vals = parse_values('purchasereturn')
             salereturn_vals = parse_values('salereturn')
 
+
             total_purchase = sum(purchase_vals) - sum(purchasereturn_vals)
             total_sale = sum(sale_vals) - sum(salereturn_vals)
+            quantity_left= quantity+total_purchase-total_sale
+            print(quantity_left)
 
             result = f'''
             <h2>Results</h2>
             <p>Total Purchase = Sum(Purchase) - Sum(PurchaseReturn) = {sum(purchase_vals)} - {sum(purchasereturn_vals)} = <b>{total_purchase}</b></p>
             <p>Total Sale = Sum(Sale) - Sum(SaleReturn) = {sum(sale_vals)} - {sum(salereturn_vals)} = <b>{total_sale}</b></p>
+            <p>Quantity Left=quantity+Sum(Total Purchase)-Sum(Total Sale) = {quantity}+{total_purchase}-{total_sale}=<b>{quantity_left}</b></p>
             <br><a href="/">Try Again</a>
             '''
             return result
